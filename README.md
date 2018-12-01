@@ -1,0 +1,2 @@
+# zabbix
+Configurações de zabbix
