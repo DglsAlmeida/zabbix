@@ -1,0 +1,92 @@
+by: Douglas almeida
+email:douglas.alu.lmb@gmail.com
+
+Baixando o repositório do zabbix e instalando os serviços
+
+# cd /etc/apt/sources.list.d 
+
+# cd /tmp/
+
+# wget https://repo.zabbix.com/zabbix/4.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_4.0-1%2Bbionic_all.deb
+# dpkg -i zabbix-release_4.0-1+bionic_all.deb
+# apt update
+# apt install zabbix-server-mysql zabbix-frontend-php zabbix-agent zabbix-get
+------------------------------------------------------------------------------------------------------------------------------------------
+
+Alterarando senha de root do mysql
+
+ # mysql_secure_installation
+
+Criar usuário no banco e dando os privilégios 
+
+# mysql -uroot -p
+
+mysql>create database zabbix character set utf8 collate utf8_bin;
+
+mysql>grant all privileges on zabbix.* to zabbix@localhost identified by 'SUA SENHA';
+
+mysql> quit;
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+Populando a base de dados do zabbix criada no banco 
+
+# cd /usr/share/doc/zabbix-server-mysql
+
+# zcat create.sql.gz | mysql -uzabbix -p zabbix
+
+depois vá no banco..
+
+# mysql -uzabbix -p
+
+mysql>show databases; (vai mostrar o banco de dados zabbix)
+
+mysql>use zabbix
+
+mysql>show tables; (vai mostrar as tabelas que foram criadas na base)
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+Configuracões no arquivo de configuração do zabbix_server.conf
+
+# vim /etc/zabbix/zabbbix_server.conf
+
+DBHost=localhost
+
+DBName=zabbix
+
+DBUser=zabbix
+
+DBPassword=zabbix
+
+Iniciar serviço zabbix-server 
+
+# service zabbix-server start
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+Configurações do PHP no APACHE 
+
+# vim /etc/apache2/conf-available/zabbix-conf
+
+Descomentar a linha:
+
+ php_value date.timezone Europe/Riga
+
+Alterar para:
+
+ php_value date.timezone America/Fortaleza
+
+PARA LISTAR TODAS AS TIMEZONES 
+
+# timedatectl list-timezones | grep America 
+
+REINICIE O SERVIDOR APACHE 
+
+# Service apache2 restart
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+ACESSAR A INTERFACE WEB
+
+http://SEUIP/zabbix
