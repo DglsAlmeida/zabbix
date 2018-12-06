@@ -1,0 +1,33 @@
+Olhe a versão do seu ubuntu:
+
+lsb_release -a
+
+Adicione o repositório para instalar os pacotes necessários para o zabbix agent usando o seguinte comando.
+
+wget http://repo.zabbix.com/zabbix/4.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_4.0-2+bionic_all.deb
+
+sudo dpkg -i zabbix-release_4.0-2+bionic_all.deb
+
+sudo apt update
+
+sudo apt-get install zabbix-agent
+
+Modifique o arquivo de configuração em /etc/zabbix/zabbix_agentd.conf e altere o ip do servidor Zabbix (Procure as 2 linhas no arquivo)
+Abrindo o arquivo para editar:
+
+sudo nano /etc/zabbix/zabbix_agentd.conf
+Server='ipdoseuzabbixserver'
+ServerActive='ipdoseuzabbixserver'
+Hostname=Zabbix Server(nome do seu zabbix-server)
+
+Reiniciando o Zabbix Agent
+
+sudo service zabbix-agent restart
+
+Logs do Zabbix Agent
+/var/log/zabbix/zabbix_agentd.log
+
+Colocando o zabbix agent para iniciar junto ao ubuntu:
+
+sudo update-rc.d zabbix-agent defaults
+sudo update-rc.d zabbix-agent enable
