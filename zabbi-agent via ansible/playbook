@@ -1,0 +1,6 @@
+---
+- name: EXECUNTADO AS ROLES NA MAQUINA AUTOMATION
+  hosts: ansible-node
+  roles:
+   - zabbix-agent
+
